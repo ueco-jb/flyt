@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
 import re
@@ -20,7 +21,11 @@ def prettify(htmlResponse):
     soup = BeautifulSoup(htmlResponse, 'html.parser')
     for title in soup.find_all('h3', {'class': 'yt-lockup-title'})[:5]:
         video = title.contents[0]
-        print("{0} - https://www.youtube.com{1}".format(video['title'], video['href']))
+        try:
+            print("{0} - https://www.youtube.com{1}".format(video['title'].encode('utf-8'), video['href']))
+        except Exception as e:
+            print("Error: {}".format(e))
+
 
 def getLatestVideosList():
     ytname = validateArgument()
@@ -29,7 +34,7 @@ def getLatestVideosList():
     if r.status_code == 200:
         prettify(r.text)
     else:
-        print("404")
+        print(r.status_code)
 
 def main():
     ytname = validateArgument()
