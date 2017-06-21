@@ -6,9 +6,11 @@ import re
 import requests
 import sys
 
+
 def validateArgument():
     try:
-        pattern = re.compile("^((https?)\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/user\/.+$")
+        pattern = re.compile('^((https?)\:\/\/)?((www\.)?'
+                             'youtube\.com|youtu\.?be)\/user\/.+$')
         if pattern.match(sys.argv[1]):
             return sys.argv[1] + '/videos'
         else:
@@ -17,28 +19,31 @@ def validateArgument():
         print("Lack of argument!")
         sys.exit(1)
 
+
 def prettify(htmlResponse):
     soup = BeautifulSoup(htmlResponse, 'html.parser')
     for title in soup.find_all('h3', {'class': 'yt-lockup-title'})[:5]:
         video = title.contents[0]
         try:
-            print("{0} - https://www.youtube.com{1}".format(video['title'].encode('utf-8'), video['href']))
+            print("{0} - https://www.youtube.com{1}"
+                  .format(video['title'].encode('utf-8'), video['href']))
         except Exception as e:
             print("Error: {}".format(e))
 
 
 def getLatestVideosList():
     ytname = validateArgument()
-
-    r = requests.get(ytname)
+    header = {'user-agent': 'Mozilla/3.0', 'Accept-Language': 'en-US,en;q=0.5'}
+    r = requests.get(ytname, headers=header)
     if r.status_code == 200:
         prettify(r.text)
     else:
         print(r.status_code)
 
+
 def main():
-    ytname = validateArgument()
     getLatestVideosList()
+
 
 if __name__ == "__main__":
     main()
