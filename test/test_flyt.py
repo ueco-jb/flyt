@@ -1,6 +1,4 @@
 import pytest
-import sys, os
-sys.path.append(os.path.abspath('..'))
 from src import flyt
 
 def test_validate_argument_channel_name():
