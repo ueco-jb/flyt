@@ -11,22 +11,23 @@ def validateArgument():
     try:
         pattern = re.compile('^((https?)\:\/\/)?((www\.)?'
                              'youtube\.com|youtu\.?be)\/user\/.+$')
-        if pattern.match(sys.argv[1]):
-            return sys.argv[1] + '/videos'
+        argument = sys.argv[1]
+        if pattern.match(argument):
+            return argument + '/videos'
         else:
-            return "https://www.youtube.com/user/" + sys.argv[1] + '/videos'
+            return "https://www.youtube.com/user/" + argument + '/videos'
     except:
         print("Lack of argument!")
-        sys.exit(1)
 
 
 def prettify(htmlResponse):
     soup = BeautifulSoup(htmlResponse, 'html.parser')
-    for title in soup.find_all('h3', {'class': 'yt-lockup-title'})[:5]:
-        video = title.contents[0]
+    for vidObject in soup.find_all('div', {'class': 'yt-lockup-content'})[:5]:
+        video = vidObject.contents[1].a
+        date = vidObject.contents[3].ul.contents[1].get_text()
         try:
-            print("{0} - https://www.youtube.com{1}"
-                  .format(video['title'].encode('utf-8'), video['href']))
+            print("{0} - https://www.youtube.com{1} - {2}"
+                  .format(video['title'].encode('utf-8'), video['href'], date))
         except Exception as e:
             print("Error: {}".format(e))
 
