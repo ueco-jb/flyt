@@ -18,6 +18,7 @@ def validateArgument():
             return "https://www.youtube.com/user/" + argument + '/videos'
     except:
         print("Lack of argument!")
+        sys.exit(1)
 
 
 def prettify(htmlResponse):
