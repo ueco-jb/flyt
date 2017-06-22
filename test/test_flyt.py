@@ -8,7 +8,29 @@ def test_validate_argument_channel_name():
     ytname = flyt.validateArgument(arg)
     assert ytname == 'https://www.youtube.com/user/' + arg + '/videos'
 
+
 def test_validate_argument_whole_link():
     arg = 'http://www.youtube.com/user/randomChannel'
     ytname = flyt.validateArgument(arg)
-    assert ytname == 'http://www.youtube.com/user/randomChannel/videos'
+    assert ytname == arg + '/videos'
+
+
+def test_validate_argument_without_http():
+    arg = 'www.youtube.com/user/randomChannel'
+    ytname = flyt.validateArgument(arg)
+    print(ytname)
+    assert ytname == arg + '/videos'
+
+
+def test_validate_argument_without_www():
+    arg = 'youtube.com/user/randomChannel'
+    ytname = flyt.validateArgument(arg)
+    print(ytname)
+    assert ytname == arg + '/videos'
+
+
+def test_validate_argument_youtu_be():
+    arg = 'youtu.be/user/randomChannel'
+    ytname = flyt.validateArgument(arg)
+    print(ytname)
+    assert ytname == arg + '/videos'
