@@ -5,7 +5,7 @@ from setuptools import setup
 setup(
     name = 'flyt',
     packages = ['src'],
-    version = '0.1',
+    version = '0.2',
     description = 'Fetch Latest YouTube videos from given channel',
     author = 'Jakub Bogucki',
     author_email = 'jbogucki@libertymail.net',
