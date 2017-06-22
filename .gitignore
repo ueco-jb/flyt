@@ -1,0 +1,6 @@
+build
+*.pyc
+cache
+.eggs
+flyt.egg-info
+dist

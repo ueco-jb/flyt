@@ -7,18 +7,13 @@ import requests
 import sys
 
 
-def validateArgument():
-    try:
+def validateArgument(argument):
         pattern = re.compile('^((https?)\:\/\/)?((www\.)?'
                              'youtube\.com|youtu\.?be)\/user\/.+$')
-        argument = sys.argv[1]
         if pattern.match(argument):
             return argument + '/videos'
         else:
             return "https://www.youtube.com/user/" + argument + '/videos'
-    except:
-        print("Lack of argument!")
-        sys.exit(1)
 
 
 def prettify(htmlResponse):
@@ -34,7 +29,12 @@ def prettify(htmlResponse):
 
 
 def getLatestVideosList():
-    ytname = validateArgument()
+    try:
+        ytname = validateArgument(sys.argv[1])
+    except:
+        print("Lack of argument!")
+        sys.exit(1)
+
     header = {'user-agent': 'Mozilla/3.0', 'Accept-Language': 'en-US,en;q=0.5'}
     r = requests.get(ytname, headers=header)
     if r.status_code == 200:

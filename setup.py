@@ -1,7 +1,10 @@
-from distutils.core import setup
+#!/usr/bin/env python2
+
+from setuptools import setup
+
 setup(
     name = 'flyt',
-    packages = ['flyt'],
+    packages = ['src'],
     version = '0.1',
     description = 'Fetch Latest YouTube videos from given channel',
     author = 'Jakub Bogucki',
@@ -11,5 +14,12 @@ setup(
     download_url = 'https://github.com/jakubbogucki/flyt/archive/0.1.tar.gz',
     keywords = ['flyt', 'fetch', 'latest', 'youtube', 'video', 'channel'],
     classifiers = [],
-    scripts=['flyt/flyt'],
+    scripts = ['src/flyt.py'],
+    entry_points = {
+        'console_scripts': [
+            'flyt = flyt:main'
+        ]
+    },
+    setup_requires = ['pytest-runner'],
+    tests_require = ['pytest'],
 )
