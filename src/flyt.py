@@ -26,7 +26,10 @@ def prettify(htmlResponse, length):
                                    {'class': 'yt-lockup-content'})[:length]:
         try:
             video = vidObject.contents[1].a
-            date = vidObject.contents[3].ul.contents[1].get_text()
+            if vidObject.find("span", {"class": "yt-badge-live"}):
+                date = "LIVE"
+            else:
+                date = vidObject.contents[3].ul.contents[1].get_text()
             print("{0} - https://www.youtube.com{1} - {2}"
                   .format(video['title'].encode('utf-8'), video['href'], date))
         except Exception as e:
